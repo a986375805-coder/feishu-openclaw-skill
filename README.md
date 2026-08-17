@@ -1,13 +1,17 @@
 # 飞书机器人 opencode Skill
 
 把 openclaw 的飞书机器人能力提炼成独立的 opencode skill：直连飞书开放平台 API，
-收发 IM 消息、读写多维表格（Bitable）。零第三方依赖，纯 Python 标准库。
+收发 IM 消息、读写多维表格（Bitable）、管理日历日程、任务、云文档。
+零第三方依赖，纯 Python 标准库。
 
 ## 特性
 
 - 发送文本 / 富文本消息到飞书群
-- 读取群聊最近消息
+- 读取群聊最近消息、跨会话搜索、下载消息中的图片/文件
 - 多维表格记录：列出 / 过滤查询 / 新建 / 更新 / 删除
+- 日历：创建日程、按时间范围查看日程
+- 任务：创建 / 查看（待办与已完成）/ 更新（改标题、标记完成、改截止时间）
+- 云文档：创建 / 读取正文 / 追加段落
 - 凭据从环境变量或凭据文件读取，无硬编码密钥
 - 跨平台（Windows / macOS / Linux，Python 3.8+）
 
@@ -33,6 +37,9 @@
    - 发消息：`im:message`、`im:message:send_as_bot`
    - 读消息：`im:message`、`im:chat`
    - 多维表格：`bitable:app`、`bitable:app:readonly`（如需要写则开通写权限）
+   - 日历：`calendar:calendar`、`calendar:calendar.event`（含 create 权限）
+   - 任务：`task:task:write`、`task:task:read`
+   - 云文档：`docx:document`、`docx:document:create`
 4. 创建版本并发布，等待审核通过
 
 ## 快速使用
@@ -55,7 +62,29 @@ python scripts/feishu_cli.py bitable-create bascXXXX tblXXXX '{"标题":"新记�
 
 # 多维表格：按条件查询
 python scripts/feishu_cli.py bitable-search bascXXXX tblXXXX '{"conjunction":"and","conditions":[{"field_name":"状态","operator":"is","value":["待办"]}]}'
+
+# 日历：查看主日历日程（可带时间范围）
+python scripts/feishu_cli.py calendar-list
+python scripts/feishu_cli.py calendar-list "2026-08-17T00:00:00+08:00,2026-08-24T00:00:00+08:00"
+
+# 日历：创建日程
+python scripts/feishu_cli.py calendar-create "周会" "2026-08-18T10:00:00+08:00" "2026-08-18T11:00:00+08:00"
+
+# 任务：创建
+python scripts/feishu_cli.py task-create "写周报" "2026-08-20T18:00:00+08:00"
+
+# 任务：查看待办 / 标记完成
+python scripts/feishu_cli.py task-list
+python scripts/feishu_cli.py task-update 任务GUID '{"completed":true}'
+
+# 云文档：创建 / 读取 / 追加
+python scripts/feishu_cli.py doc-create "会议纪要"
+python scripts/feishu_cli.py doc-get doxcnXXXX
+echo "第一段" | python scripts/feishu_cli.py doc-append doxcnXXXX
 ```
+
+> 日历 / 任务 / 云文档未开通对应 scope 时，脚本会返回 `code=99991672 Access denied`，
+> 按提示到飞书开放平台补开权限即可（见上文「飞书应用配置」）。
 
 ## 安全说明
 
@@ -70,6 +99,7 @@ SKILL.md                  skill 定义
 scripts/feishu_cli.py     API CLI
 credentials.example.json  凭据模板
 references/               参考文档
+skills/openclaw-original/ openclaw 原版 skill 参考（依赖其 MCP 网关，仅供对照）
 ```
 
 ## License
