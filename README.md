@@ -100,7 +100,20 @@ scripts/feishu_cli.py     API CLI
 credentials.example.json  凭据模板
 references/               参考文档
 skills/openclaw-original/ openclaw 原版 skill 参考（依赖其 MCP 网关，仅供对照）
+agents/                   OpenClaw 多 agent 团队模板（产品/数据/前端三个飞书机器人）
+  ├── _shared/             统一治理准则 + openclaw.json 配置片段
+  ├── product-agent/       产品分析师（终审拍板者）
+  ├── data-agent/          数据分析师
+  └── frontend-agent/      前端工程师（含 taste/web-clone 等审美与复刻方法论）
 ```
+
+## 多机器人团队（agents/）
+
+如果你在跑 OpenClaw 多 agent（产品分析 / 数据分析 / 前端实现三个 bot 在飞书群协作），
+直接使用 `agents/` 下的模板：每个 `workspace/` 复制到 `~/.openclaw/workspace-<agent>` 即可开箱即用，
+内含统一治理（决策分级 L1-L4 + 产品分析师终审拍板）、长期记忆与自我进化机制、防超时任务协议。
+
+详见 [`agents/README.md`](agents/README.md)。
 
 ## License
 

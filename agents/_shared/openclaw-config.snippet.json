@@ -1,0 +1,77 @@
+{
+  "//README": "把本文件中的片段合并进你的 openclaw.json（~/.openclaw/openclaw.json）。<> 内是占位符，按你的环境替换。API key 只在环境变量或 providers 里配置，切勿入库。",
+  "_meta": "合并参考。openclaw.json 为 JSON5 兼容格式，合并时保留原有字段。",
+
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",
+      "compaction": { "mode": "safeguard" },
+      "maxConcurrent": 4,
+      "subagents": { "maxConcurrent": 8 }
+    },
+    "list": [
+      {
+        "id": "product-agent",
+        "name": "product-agent",
+        "workspace": "~/.openclaw/workspace-product",
+        "agentDir": "~/.openclaw/agents/product-agent/agent",
+        "model": "<MODEL_ID，如 deepseek/deepseek-v4-flash>"
+      },
+      {
+        "id": "data-agent",
+        "name": "data-agent",
+        "workspace": "~/.openclaw/workspace-data",
+        "agentDir": "~/.openclaw/agents/data-agent/agent",
+        "model": "<MODEL_ID，如 qwen/qwen3.5-flash>"
+      },
+      {
+        "id": "frontend-agent",
+        "name": "frontend-agent",
+        "workspace": "~/.openclaw/workspace-frontend",
+        "agentDir": "~/.openclaw/agents/frontend-agent/agent",
+        "model": "<MODEL_ID，如 deepseek/deepseek-v4-flash>"
+      }
+    ]
+  },
+
+  "bindings": {
+    "entries": [
+      { "agentId": "product-agent", "match": { "channel": "feishu", "accountId": "<飞书应用的 accountId，如 product>" } },
+      { "agentId": "data-agent", "match": { "channel": "feishu", "accountId": "<如 data>" } },
+      { "agentId": "frontend-agent", "match": { "channel": "feishu", "accountId": "<如 frontend>" } }
+    ]
+  },
+
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "appId": "<主飞书应用 AppID>",
+      "appSecret": "<主飞书应用 AppSecret>",
+      "domain": "feishu",
+      "groupPolicy": "open",
+      "dmPolicy": "pairing",
+      "accounts": {
+        "<accountId 如 product>": {
+          "appId": "<该 bot 的飞书 AppID>",
+          "appSecret": "<该 bot 的 AppSecret>",
+          "name": "<显示名，如 产品分析师>",
+          "groupPolicy": "open",
+          "enabled": true
+        }
+      },
+      "groups": {
+        "<飞书群 chat_id，如 oc_xxxxxxxx>": {}
+      }
+    }
+  },
+
+  "plugins": {
+    "entries": {
+      "feishu-openclaw-plugin": { "enabled": true }
+    }
+  },
+
+  "hooks": {
+    "internal": { "enabled": true, "entries": { "session-memory": { "enabled": true } } }
+  }
+}
