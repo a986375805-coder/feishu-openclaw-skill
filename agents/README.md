@@ -1,10 +1,10 @@
 # OpenClaw 多 Agent 团队模板（飞书专用）
 
-一套"开箱即用"的飞书多机器人团队：产品分析、数据分析、前端实现三个 bot 协作，带统一治理（拍板权）、
-长期记忆与自我进化机制。配合本仓库根目录的 `SKILL.md`（飞书直连 API skill）使用。
+一套"开箱即用"的飞书多机器人团队：产品分析、数据分析、前端实现、日常事务助理四个 bot，
+带统一治理（拍板权）、长期记忆与自我进化机制。配合本仓库根目录的 `SKILL.md`（飞书直连 API skill）使用。
 
 > 适用范围：OpenClaw（原 Clawdbot）在飞书群里的多 agent 协作场景。
-> 特性：三 bot 分工 + 产品分析师终审拍板（GOVERNANCE.md）+ 每人长期记忆（MEMORY/USER/EVOLUTION）+ 项目上下文。
+> 特性：多 bot 分工 + 产品分析师终审拍板（GOVERNANCE.md）+ 每人长期记忆（MEMORY/USER/EVOLUTION）+ 项目上下文 + 助理定时提醒/新闻早报。
 
 ## 团队构成
 
@@ -13,6 +13,7 @@
 | 📊 产品分析师（终审） | `product-agent/` | 产品规划/需求/优先级/增长/商业化/拍板。多 agent 分歧时收敛裁决 | 推理强的中档模型（如 deepseek-v4-flash / qwen3.5-flash） |
 | 📈 数据分析师 | `data-agent/` | 数据获取/清洗/分析/可视化/生图（matplotlib + 通义万相） | 可带视觉能力（如 qwen3.5-flash） |
 | 🎨 前端工程师 | `frontend-agent/` | 页面/组件/视觉实现；网站复刻（taste-skill + web-clone） | 逻辑强的模型（如 deepseek-v4-flash） |
+| 🗓️ 日常事务助理 | `assistant-agent/` | 定时提醒（自然语言→cron）+ 全球 AI 新闻早报（每日 9 点自动）+ 轻量查询 | 通用中档模型（如 deepseek-v4-flash） |
 
 ## 目录结构
 
@@ -39,6 +40,10 @@ agents/
         ├── AGENTS.md / IDENTITY.md / USER.md / SOUL.md / TOOLS.md
         ├── MEMORY.md / EVOLUTION.md / GOVERNANCE.md / HEARTBEAT.md
         └── skills/               taste-skill / soft-skill / minimalist-skill / brutalist-skill / web-clone
+└── assistant-agent/
+    ├── workspace/                日常事务助理工作区模板
+    │   └── AGENTS.md / IDENTITY.md / USER.md / SOUL.md / TOOLS.md / MEMORY.md
+    └── skill/                    助理技能（SKILL.md + reminder.py + news_digest.py）
 ```
 
 ## 快速部署（3 步）
