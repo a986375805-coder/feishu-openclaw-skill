@@ -29,14 +29,15 @@ metadata:
 | "今天X点提醒我 XX" | `--at <今天X点的ISO时间>` |
 
 ### 执行命令
+**必须带投递目标**（否则 cron 触发时没有群上下文、发不出去）：
 ```bash
-openclaw cron add --name "<简短任务名>" --cron "<5字段表达式>" --message "<提醒内容>" --agent assistant-agent
-# 一次性任务示例
-openclaw cron add --name "喝水提醒" --at "+30m" --message "该喝水了 💧" --agent assistant-agent
+openclaw cron add --name "<简短任务名>" --cron "<5字段表达式>" --channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6 --message "<提醒内容>" --agent assistant-agent
+# 一次性任务示例（--at 不加 + 前缀）
+openclaw cron add --name "喝水提醒" --at "30m" --channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6 --message "该喝水了 💧" --agent assistant-agent
 ```
 
 ### 成功标准
-- 命令执行成功（返回 job id）
+- 命令执行成功，返回 delivery 含 `channel: feishu` + `to: oc_ddcc7f9d59d22e9fd098defd406fefb6`
 - 回复用户确认："已设置 ✓ 每天9:00 提醒你：晨会"
 
 ### 取消提醒

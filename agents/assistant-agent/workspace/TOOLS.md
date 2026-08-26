@@ -5,7 +5,7 @@
 - 可用：python、node、npm、git。
 
 ## openclaw 命令（核心）
-- 注册提醒：`openclaw cron add --name <任务名> --cron "分 时 * * *" --message "<提醒内容>" --agent assistant-agent`
+- 注册提醒：`openclaw cron add --name <任务名> --cron "分 时 * * *" --channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6 --message "<提醒内容>" --agent assistant-agent`
   - 示例：每天9点 → `--cron "0 9 * * *"`
   - 每周一9点 → `--cron "0 9 * * 1"`
   - 一次性(X分钟后) → `--at Xm`

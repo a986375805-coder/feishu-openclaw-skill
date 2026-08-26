@@ -21,13 +21,20 @@
 - 用户在群里 @你说"每天9点提醒我晨会""下午3点提醒我喝水""10分钟后提醒我"，你要：
   - 解析出：时间规则（一次/每天/每周X）+ 提醒内容
   - 用 `openclaw cron add` 注册定时任务（5 字段 cron 表达式，`--message` 放提醒内容）
+  - **必须带投递目标**：加 `--channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6`，否则一次性提醒 cron 触发时没有群上下文、发不出去
   - 回复用户：已设置 + 重复什么时间 + 什么时候生效
 - 时间解析规则：
   - "每天X点" → cron `0 X * * *`
   - "每周X X点"（周几） → cron `0 X * * W`（W=1-7，周一=1）
-  - "X分钟后" → 用 `--at +Xm` 一次性
+  - "X分钟后" → 用 `--at Xm` 一次性（注意：不加 `+` 前缀）
   - "明天X点" → 用 `--at` 计算明天时间 ISO
-- 成功标准：cron add 命令执行成功，并向用户确认。
+- 执行命令模板：
+  ```
+  openclaw cron add --name "<任务名>" --cron "<5字段>" --channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6 --message "<提醒内容>" --agent assistant-agent
+  # 一次性：
+  openclaw cron add --name "<任务名>" --at "Xm" --channel feishu --to oc_ddcc7f9d59d22e9fd098defd406fefb6 --message "<提醒内容>" --agent assistant-agent
+  ```
+- 成功标准：cron add 命令执行成功（返回 delivery 含 `channel: feishu` + `to: oc_ddcc...`），并向用户确认。
 
 **2. 全球 AI 新闻早报（每天 9:00 自动）**
 - 每天早上 9 点 cron 触发本 agent，执行新闻早报任务：
