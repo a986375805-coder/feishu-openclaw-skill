@@ -81,11 +81,11 @@ def parse(text):
     # 3. X分钟后 / X小时后（一次性）
     m = re.search(r"(\d+)\s*分钟\s*后", text_clean)
     if m:
-        return {"name": "一次性提醒", "at": f"+{m.group(1)}m", "message": msg,
+        return {"name": "一次性提醒", "at": f"{m.group(1)}m", "message": msg,
                 "friendly": f"{m.group(1)}分钟后提醒你：{msg}"}
     m = re.search(r"(\d+)\s*小时\s*后", text_clean)
     if m:
-        return {"name": "一次性提醒", "at": f"+{int(m.group(1))*60}m", "message": msg,
+        return {"name": "一次性提醒", "at": f"{int(m.group(1))*60}m", "message": msg,
                 "friendly": f"{m.group(1)}小时后提醒你：{msg}"}
 
     # 4. 明天X点 / 今天X点（一次性）

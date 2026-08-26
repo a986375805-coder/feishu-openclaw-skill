@@ -8,7 +8,7 @@
 - 注册提醒：`openclaw cron add --name <任务名> --cron "分 时 * * *" --message "<提醒内容>" --agent assistant-agent`
   - 示例：每天9点 → `--cron "0 9 * * *"`
   - 每周一9点 → `--cron "0 9 * * 1"`
-  - 一次性(X分钟后) → `--at +Xm`
+  - 一次性(X分钟后) → `--at Xm`
 - 查看提醒：`openclaw cron list`
 - 立即运行（调试）：`openclaw cron run <job_id>`
 - 删除提醒：`openclaw cron rm <job_id>`
